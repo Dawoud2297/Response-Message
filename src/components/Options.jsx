@@ -1,87 +1,81 @@
-import React from 'react'
-import useDefaultOptions from '../hooks/useDefaultOptions'
-// import { defaultOptions } from '../utils/showMessage';
-// const options = {
-//     autoClose: 5000,
-//     hideProgressBar: false,
-//     closeOnClick: true,
-//     pauseOnHover: true,
-//     draggable: true,
-// }
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  handleAutoClose,
+  handleOptionsChanges,
+} from "../services/store/optionsSlice";
 const Options = () => {
-    // const [option, setOption] = useState(options)
-    // const handleOnChange = (e) => {
-    //     const { name } = e.target;
-    //     if (name === 'autoClose' && option.autoClose === false) {
-    //         setOption({ ...option, autoClose: 5000 })
-    //     } else {
-    //         setOption({ ...option, [name]: !option[name] })
-    //     }
-    //     // setOption({ ...option, [name]: !value })
-    // }
-    // // console.log(autoCloseRef)
-    // console.log(option)
-    // console.log(option['closeOnClick'])
-    const [options, handleOptionsChanges, setAutoCloseInterval] = useDefaultOptions();
+  const { defaultOptions, requiredOptions } = useSelector(
+    (state) => state.optionsSlice
+  );
+  const dispatch = useDispatch();
 
-    console.log(options)
-    return (
-        <div className='optionsContainer'>
-            <label>
-                <input
-                    type='checkbox'
-                    name='closeOnClick'
-                    checked={options.closeOnClick}
-                    onChange={handleOptionsChanges}
-                />
-                <span>Close On Click</span>
-            </label>
-            <label>
-                <input
-                    type='checkbox'
-                    name='hideProgressBar'
-                    checked={options.hideProgressBar}
-                    onChange={handleOptionsChanges}
-                />
-                <span>Hide Progress Bar</span>
-            </label>
-            <label>
-                <input
-                    type='checkbox'
-                    name='pauseOnHover'
-                    checked={options.pauseOnHover}
-                    onChange={handleOptionsChanges}
-                />
-                <span>Pause On Hover</span>
-            </label>
-            <label>
-                <input
-                    type='checkbox'
-                    name='draggable'
-                    checked={options.draggable}
-                    onChange={handleOptionsChanges}
-                />
-                <span>Draggable</span>
-            </label>
-            <label>
-                <input
-                    type='checkbox'
-                    name='autoClose'
-                    checked={options.autoClose === false}
-                    onChange={handleOptionsChanges}
-                />
-                <span>Disable Auto Close</span>
-            </label>
-            <label>
-                <input
-                    type='number'
-                    disabled={options.autoClose === false}
-                    value={options.autoClose}
-                    onChange={setAutoCloseInterval}
-                />
-            </label>
-        </div>
-    )
-}
+  const handleChanges = (e) => {
+    dispatch(handleOptionsChanges(e));
+  };
 
-export default Options
+  const setAutoCloseInterval = (e) => {
+    dispatch(handleAutoClose(e.target.value));
+  };
+
+  return (
+    <div className="optionsContainer">
+      <label>
+        <input
+          type="checkbox"
+          name="closeOnClick"
+          checked={defaultOptions.closeOnClick}
+          onChange={handleChanges}
+        />
+        <span>Close On Click</span>
+      </label>
+      <label>
+        <input
+          type="checkbox"
+          name="hideProgressBar"
+          checked={defaultOptions.hideProgressBar}
+          onChange={handleChanges}
+        />
+        <span>Hide Progress Bar</span>
+      </label>
+      <label>
+        <input
+          type="checkbox"
+          name="pauseOnHover"
+          checked={defaultOptions.pauseOnHover}
+          onChange={handleChanges}
+        />
+        <span>Pause On Hover</span>
+      </label>
+      <label>
+        <input
+          type="checkbox"
+          name="draggable"
+          checked={defaultOptions.draggable}
+          onChange={handleChanges}
+        />
+        <span>Draggable</span>
+      </label>
+      <label>
+        <input
+          type="checkbox"
+          name="autoClose"
+          checked={defaultOptions.autoClose === false}
+          onChange={handleChanges}
+        />
+        <span>Disable Auto Close</span>
+      </label>
+      <label className="autoClose">
+        <input
+          type="number"
+          disabled={defaultOptions.autoClose === false}
+          value={requiredOptions.interval}
+          onChange={setAutoCloseInterval}
+        />
+        <span>ms</span>
+      </label>
+    </div>
+  );
+};
+
+export default Options;

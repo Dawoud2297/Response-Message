@@ -1,41 +1,30 @@
-const positions = [
-    {
-        position: 'top-left',
-        id: 'tl'
-    },
-    {
-        position: 'top-center',
-        id: 'tc'
-    },
-    {
-        position: 'top-right',
-        id: 'tr'
-    },
-    {
-        position: 'bottom-left',
-        id: 'bl'
-    },
-    {
-        position: 'bottom-center',
-        id: 'bc'
-    },
-    {
-        position: 'bottom-right',
-        id: 'br'
-    },
-]
+import { positions } from "../services/constantData";
+import { useDispatch, useSelector } from "react-redux";
+import { handlePositionAndTheme } from "../services/store/optionsSlice";
+
 const Positions = () => {
-    return (
-        <div className="positionsContainer">
-            {
-                positions.map((position) => (
-                    <label key={position.id}>
-                        <input type="radio" name="po" />
-                        <span>{position.position}</span>
-                    </label>
-                ))
-            }
-        </div>
-    )
-}
-export default Positions
+  const { defaultOptions } = useSelector((state) => state.optionsSlice);
+  const dispatch = useDispatch();
+
+  const handlePositionChange = (e) => {
+    dispatch(handlePositionAndTheme(e));
+  };
+
+  return (
+    <div className="positionsContainer">
+      {positions.map((position) => (
+        <label key={position.id}>
+          <input
+            type="radio"
+            name="position"
+            defaultChecked={position.position === defaultOptions.position}
+            value={position.position}
+            onChange={handlePositionChange}
+          />
+          <span>{position.position}</span>
+        </label>
+      ))}
+    </div>
+  );
+};
+export default Positions;
