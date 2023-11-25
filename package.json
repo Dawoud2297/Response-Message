@@ -1,6 +1,6 @@
 {
-  "name": "messages",
   "homepage": "https://Dawoud2297.github.io/Response-Message-dashboard",
+  "name": "messages",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
