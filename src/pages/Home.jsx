@@ -12,6 +12,7 @@ const Home = () => {
   const onSubmit = () => {
     dispatch(handleSubmit());
   };
+  
   return (
     <div className="Home">
       <MessageControl />
